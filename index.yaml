@@ -26,3 +26,63 @@ indexes:
 # manually, move them above the marker line.  The index.yaml file is
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
+
+#we need to update the index for more pamaters, creating, answering and voting
+#since these are different views
+
+#takes in users
+- kind: auth_user
+  properties:
+  - name: username
+  - name: __key__
+    direction: desc
+
+#for answers given
+- kind: gproject_answer
+  properties:
+  - name: question_id
+  - name: votes
+    direction: desc
+
+#for answers given
+- kind: gproject_answer
+  properties:
+  - name: question_id_id
+  - name: votes
+    direction: desc
+#for question
+- kind: gproject_question
+  properties:
+  - name: __key__
+    direction: desc
+
+#for question
+- kind: gproject_question
+  properties:
+  - name: pub_date
+  - name: __key__
+    direction: desc
+#for question
+- kind: gproject_question
+  properties:
+  - name: pub_date
+    direction: desc
+  - name: __key__
+    direction: desc
+
+#for question
+- kind: gproject_question
+  properties:
+  - name: question_text
+  - name: __key__
+    direction: desc
+#for uploading picture
+- kind: gproject_uploadmodel
+  properties:
+  - name: __key__
+    direction: desc
+#for voting
+- kind: gproject_vote
+  properties:
+  - name: __key__
+    direction: desc
