@@ -1,0 +1,16 @@
+{% if logged_in %}
+	Welcome Stranger! <em> {{ user }}</em>! <a href="{% url 'gproject:login' %}">sign out?</a>
+	{% if is_author %}
+		<form action="{% url 'gproject:edit_answer' answer.id %}" method="post"
+		    {% csrf_token %}
+		    {{ form }}
+		    <input type="submit" value="Submit" />
+		</form>
+	<a href="{% url 'gproject:upload' %}">upload (keep it clean!)</a>
+	{% else %}
+		Did you make this answer? No, so you can't edit. 
+	{% endif %}
+{% else %}
+	'Did you sign? If you didn't you need to be signed in to edit a answer. So do it! <a href="{% url 'gproject:login' %}"> sign in </a>
+{% endif %}
+<a href="{% url 'gproject:index' %}">home</a>

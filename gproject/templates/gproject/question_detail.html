@@ -1,0 +1,56 @@
+{% if logged_in %}
+	Welcome stranger <em> {{ user }}</em>! <a href="{% url 'gproject:login' %}">sign out?</a>
+	<a href="{% url 'gproject:add_answer' question.id %}">add an answer</a>
+	<a href="{% url 'gproject:edit_question' question.id %}">edit a question</a>
+	<form action="{% url 'gproject:vote_question' question.id %}" method="post">
+		{% csrf_token %}
+		<input type="radio" name="question" id="question{{ question.id }}" value="{{ question.id }}" />
+		<label for="question.id"><h1>{{ question.question_text|safe }} : {{ question.votes }} vote{{ question.votes|pluralize }} </h1></label><br />
+		<input type="submit" name="UP" value="UP" />
+		<input type="submit" name="DOWN" value="DOWN" />
+	</form>
+	<h2>Tags:  {{ question.tags }}  </h2>
+	{% if question.image != None %}
+		Image:
+	    <img src="{% url 'gproject:download' pk=question.image.pk %}">
+	    <a href="{% url 'gproject:download' pk=question.image.pk %}">uploaded image</a>
+    {% endif %}
+    <hr>
+	{% if  highest_voted_a_list %}
+		<form action="{% url 'gproject:vote_answer' question.id %}" method="post">
+			{% csrf_token %}
+			{% for answer in highest_voted_a_list %}
+			    <input type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}" />
+			    <label for="answer{{ forloop.counter }}">{{ answer.answer_text|safe }} : {{ answer.votes }} vote{{ answer.votes|pluralize }}  <a href="{% url 'gproject:edit_answer' answer.id %}">edit answer</a></label><br />
+				{% if answer.image != None %}
+				    Image:
+			    	<img src="{% url 'gproject:download' pk=answer.image.pk %}">
+			   		<a href="{% url 'gproject:download' pk=answer.image.pk %}">link to uploaded image</a>
+			   	{% endif %}
+			 <hr>
+			{% endfor %}
+			<br>
+			<input type="submit" name="UP" value="UP" />
+			<input type="submit" name="DOWN" value="DOWN" />
+		</form>
+	{% else %}
+	    <p>No answers are available.</p>
+	{% endif %}
+{% else %}
+	'Welcome Stranger! <a href="{% url 'gproject:login' %}"> You wanna vote?</a>
+	<h1>{{ question.question_text|safe }} -- {{ question.votes }} vote{{ question.votes|pluralize }} </h1>
+	<h2>Tags:  {{ question.tags }}  </h2>
+	<hr> 
+	{% if  highest_voted_a_list %}
+		<ul>
+		{% for answer in highest_voted_a_list %}
+		    <li>{{ answer.answer_text|safe }} : {{ answer.votes }} vote{{ answer.votes|pluralize }}</li>
+		<hr>
+		{% endfor %}
+		</ul>
+	{% else %}
+	    <p>No answers are available.</p>
+	{% endif %}
+{% endif %}
+
+<a href="{% url 'gproject:index' %}">home</a>

@@ -1,0 +1,36 @@
+{% if logged_in %}
+    Welcome Stranger <em> {{ user }}</em>! <a href="{% url 'gproject:login' %}">sign out?</a>
+    <a href="{% url 'gproject:add_question' %}">add question!</a>
+{% else %}
+    'Welcome stranger <a href="{% url 'gproject:login' %}"> sign in please </a>
+{% endif %}
+<form action="{% url 'gproject:search' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="search" value="search tags" />
+    <input type="submit" name="Submit" value="Submit" />
+</form>
+<a href="{% url 'gproject:upload' %}">upload(keep it clean!)</a>
+{% if  highest_voted_q_list %}
+<ul>
+    {% for question in highest_voted_q_list %}
+    <li><a href="{% url 'gproject:question_detail' question.id %}">Question {{question.id}}</a> {{ question.question_text|truncatechars:500|safe }}</a> -- {{ question.votes }} vote{{ question.votes|pluralize }}</li>
+    <hr>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No questions :( (add some more)</p>
+{% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if highest_voted_q_list.has_previous %}
+        <a href="?page={{ highest_voted_q_list.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ highest_voted_q_list.number }} of {{ highest_voted_q_list.paginator.num_pages }}.
+        </span>
+        {% if highest_voted_q_list.has_next %}
+        <a href="?page={{ highest_voted_q_list.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+<a href="{% url 'gproject:index' %}">home</a>
