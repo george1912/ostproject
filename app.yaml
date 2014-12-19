@@ -32,3 +32,14 @@ handlers:
 
 - url: /.*
   script: djangoappengine.main.application
+
+ #adding extra calls for the login pages 
+
+ - url: /_ah/login_required
+  script: gproject.wsgi.application
+
+- url: /.*
+  script: gproject.wsgi.application
+  login: required
+
+
