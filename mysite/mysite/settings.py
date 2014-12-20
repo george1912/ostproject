@@ -19,8 +19,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'djangotoolbox',
     'autoload',
-    'dbindexer',
-
     #adding messages for django
     'django.contrib.messages',
     #adding dbindexer

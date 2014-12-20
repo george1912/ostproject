@@ -1,4 +1,4 @@
-application: arched-forest-799 
+application: fleet-passage-800
 version: 1
 runtime: python27
 api_version: 1
@@ -33,13 +33,10 @@ handlers:
 - url: /.*
   script: djangoappengine.main.application
 
- #adding extra calls for the login pages 
-
- - url: /_ah/login_required
+- url: /_ah/login_required
   script: gproject.wsgi.application
 
 - url: /.*
   script: gproject.wsgi.application
   login: required
-
 
