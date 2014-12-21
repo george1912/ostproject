@@ -33,10 +33,3 @@ handlers:
 - url: /.*
   script: djangoappengine.main.application
 
-- url: /_ah/login_required
-  script: gproject.wsgi.application
-
-- url: /.*
-  script: gproject.wsgi.application
-  login: required
-
