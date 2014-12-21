@@ -1,0 +1,12 @@
+{% if logged_in %}
+	Hi! <em> {{ user }}</em>! <a href="{% url 'gproject:login' %}">sign out?</a>
+	<form action="{% url 'gproject:add_question' %}" method="post"
+	    {% csrf_token %}
+	    {{ form }}
+	    <input type="submit" value="Submit" />
+	</form>
+	<a href="{% url 'gproject:upload' %}">upload (keep it clean!)</a>
+{% else %}
+	'Welcome stranger! You need to be signed to add questions. <a href="{% url 'gproject:login' %}"> sign in? </a>
+{% endif %}
+<a href="{% url 'gproject:index' %}">home</a>

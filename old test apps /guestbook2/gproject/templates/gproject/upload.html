@@ -1,0 +1,18 @@
+{% load filetransfers %}
+<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% render_upload_data upload_data %}
+  <table>{{ form }}</table>
+  <input type="submit" value="Upload" />
+</form>
+<h1>Uploaded Files</h1>
+<ul>
+  {% for upload in uploads %}
+    <li>
+      {% url 'gproject:download' pk=upload.pk as fallback_url %}
+      <a href="{% firstof upload.file|public_download_url fallback_url %}"> {{ upload.filename }}</a>
+      ({{ upload.file.size|filesizeformat }})
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'gproject:index' %}">home</a>

@@ -1,0 +1,31 @@
+{% if logged_in %}
+	Hello <em> {{ user }}</em>! <a href="{% url 'gproject:login' %}">sign out?</a>
+{% else %}
+	'Welcome Stranger <a href="{% url 'gproject:login' %}"> sign in? </a>
+{% endif %}
+<h1>{{ question.question_text|safe }} -- {{ question.votes }} vote{{ question.votes|pluralize }}</h1>
+{% if question.image != None %}
+	Image:
+    <img src="{% url 'gproject:download' pk=question.image.pk %}">
+    <a href="{% url 'gproject:download' pk=question.image.pk %}">link to uploaded image</a>
+{% endif %}
+<hr>
+{% if  highest_voted_answer_list %}
+	<ul>
+	{% for answer in highest_voted_a_list %}
+	    <li>{{ answer.answer_text|safe }} -- {{ answer.votes }} vote{{ answer.votes|pluralize }}</li>
+    	{% if answer.image != None %}
+		    Image:
+	    	<img src="{% url 'gproject:download' pk=answer.image.pk %}">
+	   		<a href="{% url 'gproject:download' pk=answer.image.pk %}">link to uploaded image</a>
+   		{% endif %}
+   	<hr>
+	{% endfor %}
+	</ul>
+{% else %}
+    <p>No answers. :( (add some more)</p>
+{% endif %}
+{% if logged_in %}
+	<a href="{% url 'gproject:question_detail' question.id %}">Would you like to vote again?</a>
+{% endif %}
+<a href="{% url 'gproject:index' %}">home</a>
